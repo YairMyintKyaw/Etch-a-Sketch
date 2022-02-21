@@ -8,8 +8,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="gridContainer">
-
+    <h1>Etch-a-Sketch</h1>
+    <div class="userColorCustomize">
+        <button class="randomColor">Random Color</button>
+        <div class="colorContainer">
+            <label for="chooseColor">Choose color</label>
+            <input type="color" class="userColorChoice">
+        </div>
+    </div>
+    <div class="gridContainer"></div>
+    <div>
+        <button class="clearedBtn">Clear</button>
+        <select class="ratioChanged" name="ratio">
+            <option value="ratio">Ratio</option>
+            <option value="8">8:8</option>
+            <option value="16">16:16</option>
+            <option value="32">32:32</option>
+            <option value="64">64:64</option>
+            <option value="customize">Customize</option>
+          </select>
+        
     </div>
     <script src="script.js"></script>
 </body>
