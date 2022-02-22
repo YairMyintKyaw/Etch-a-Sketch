@@ -48,12 +48,12 @@ window.addEventListener('resize',()=>{
 function setHoverEffect(color){
     const squares = document.querySelectorAll('.square')
     squares.forEach((square)=>{
-        square.removeEventListener('mouseover',changeBackground);
         let red=60;
         let green=60;
         let blue=60;
         
         square.addEventListener('mouseover',changeBackground)
+        square.addEventListener('touchmove',changeBackground)
         function changeBackground(){
             try{
                 if(color()[0]!='#'){
