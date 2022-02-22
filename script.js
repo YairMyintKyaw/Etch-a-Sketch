@@ -2,6 +2,9 @@ const gridContainer=document.querySelector('.gridContainer')
 const clearedBtn=document.querySelector('.clearedBtn')
 const randomColor=document.querySelector('.randomColor')
 const userColorChoice=document.querySelector('.userColorChoice')
+const darker=document.querySelector('.darker')
+//Set the current color
+let currentColor;
 let numberOfRow=16; // initial row
 let numberOfColumn=16;// initial column
 createBoard(numberOfRow,numberOfColumn)
@@ -29,6 +32,7 @@ function createBoard(row,column){
             })
         }
     }
+    
 }
 //In case any rotation happens
 window.addEventListener('resize',()=>{
@@ -44,17 +48,37 @@ window.addEventListener('resize',()=>{
 function setHoverEffect(color){
     const squares = document.querySelectorAll('.square')
     squares.forEach((square)=>{
-        square.addEventListener('mouseover',()=>{
+        square.removeEventListener('mouseover',changeBackground);
+        let red=60;
+        let green=60;
+        let blue=60;
+        
+        square.addEventListener('mouseover',changeBackground)
+        function changeBackground(){
             try{
-                square.style.backgroundColor=color()
+                if(color()[0]!='#'){
+                    if(square.style.backgroundColor=='rgb(0%,0%,0%)') {
+                        return;
+                    };
+                    red-=6;
+                    green-=6;
+                    blue-=6;
+                    square.style.backgroundColor=color(red,green,blue)
+                }
+                else{
+                    square.style.backgroundColor=color()
+                }
             }catch{
                 square.style.backgroundColor=color
             }
-        })
+            
+        
+    }
     })
 }
-//Set the current color
-let currentColor;
+
+document.body.style.backgroundColor='rgb(30%,25%,100%)'
+
 //Random color
 function generateRandomColor(){
     let maxVal = 0xFFFFFF; // 16777215
@@ -65,14 +89,29 @@ function generateRandomColor(){
 }
 randomColor.addEventListener('click',()=>{
     setHoverEffect(generateRandomColor)
-    currentColor=generateRandomColor()
+    currentColor=generateRandomColor
 })
 
 //user choosing color
 userColorChoice.addEventListener('change',(e)=>{
-    const colorCode=e.target.value
+    function colorCode(){
+        return e.target.value
+    }
     setHoverEffect(colorCode)
     currentColor=colorCode
+    
+})
+function darkerColor(r,g,b){
+    return `rgb(${r}%,${g}%,${b}%)`
+}
+//darker
+
+
+darker.addEventListener('click',()=>{
+    
+
+    setHoverEffect(darkerColor)
+    currentColor=darkerColor
 })
 
 
