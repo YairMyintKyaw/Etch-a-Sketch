@@ -128,17 +128,20 @@ clearedBtn.addEventListener('click',()=>{
 const options = document.querySelectorAll('option')
 options.forEach((option)=>{
     
-    option.addEventListener('click',()=>{
-        let optionValue = option.value; numberOfColumn=optionValue;numberOfRow=optionValue;
-        
-        if(optionValue=='ratio') return;
-        //else if(optionValue=='customize') {}
-        gridContainer.innerHTML=''
-        
-        createBoard(+optionValue,+optionValue)
-        setTimeout(() => {
-            clearedBtn.click()
-        }, 500);
-    })
+    option.addEventListener('click',changeTheBoard)
+    option.addEventListener('touch',changeTheBoard)
 })
+
+function changeTheBoard(e){
+    let optionValue = e.target.value; numberOfColumn=optionValue;numberOfRow=optionValue;
+    
+    if(optionValue=='ratio') return;
+    //else if(optionValue=='customize') {}
+    gridContainer.innerHTML=''
+    
+    createBoard(+optionValue,+optionValue)
+    setTimeout(() => {
+        clearedBtn.click()
+    }, 500);
+}
 
