@@ -14,6 +14,7 @@ gridContainer.addEventListener('touchstart',click)
 
 function click(){
     isClicked=true;
+    console.log('click')
 }
 
 window.addEventListener('mouseup',unclick)
@@ -22,7 +23,11 @@ window.addEventListener('touchcancel',unclick)
 
 function unclick(){
     isClicked=false;
+    console.log('unclick')
+
 }
+
+
 
 //Create board
 function createBoard(row,column){
@@ -37,20 +42,44 @@ function createBoard(row,column){
             square.classList.add('square');
             //square.draggable="false"
             if(i%2==0){
-                if(j%2!==0) square.classList.add('grayBackground')
+                if(j%2!==0) square.style.backgroundColor='gainsboro'
             }else{
-                if(j%2==0) square.classList.add('grayBackground')
+                if(j%2==0) square.style.backgroundColor='gainsboro'
             }
             
             gridRow.append(square)
-            square.addEventListener('mousedown',()=>square.style.backgroundColor='black')
-            square.addEventListener('mouseover',()=>{
-                if(!isClicked) return;
-                square.style.backgroundColor='black'
-            })
+            
+            
+
+            
+
+            square.addEventListener('touchstart',initialColor)
+            square.addEventListener('touchmove',initialDrawColorForTouch)
+            square.addEventListener('mousedown',initialColor)
+            square.addEventListener('mouseover',initialDrawColor)
         }
     }
     
+}
+
+function initialDrawColorForTouch(e){
+    let secondElement=document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+    console.log(document.elementsFromPoint)
+    if(!isClicked) return;
+    e.target.style.backgroundColor='black';
+    if(secondElement.classList.contains('square')) secondElement.style.backgroundColor='black'
+    e.preventDefault()
+}
+function initialDrawColor(e){
+    if(!isClicked) return;
+    e.target.style.backgroundColor='black';
+    e.preventDefault()
+}
+function initialColor(e){
+    e.target.style.backgroundColor='black';
+    console.log(e.target)
+    e.preventDefault()
+
 }
 
 
@@ -64,27 +93,45 @@ window.addEventListener('resize',()=>{
         gridContainer.style.height=`${gridContainer.offsetWidth}px`
     }
 })
+
 //square
+let firstClick=false
 function setHoverEffect(color){
     
     const squares = document.querySelectorAll('.square')
     squares.forEach((square)=>{
+        if(firstClick){
+            square.removeEventListener('touchstart',initialColor)
+            square.removeEventListener('touchmove',initialDrawColorForTouch)
+            square.removeEventListener('mousedown',initialColor)
+            square.removeEventListener('mouseover',initialDrawColor)
+        }
         let red=60;
         let green=60;
         let blue=60;
         square.addEventListener('mousedown',changeBackgroundWithClick)
-        square.addEventListener('touch',changeBackgroundWithClick)
+        square.addEventListener('touchstart',changeBackgroundWithClick)
         square.addEventListener('mouseover',changeBackgroundWhileDrag)
-        square.addEventListener('touchmove',changeBackgroundWhileDrag)
+        square.addEventListener('touchmove',changeBackgroundWhileDragWithTouch)
         
-        function changeBackgroundWithClick(){
-            changeBackground()
+        function changeBackgroundWithClick(e){
+            //e.stopPropagation()
+            changeBackground(square)
         }
-        function changeBackgroundWhileDrag(){
+
+        function changeBackgroundWhileDragWithTouch(e){
+            let secondElement=document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+            if(!isClicked || !secondElement.classList.contains('square')) return
+            changeBackground(secondElement)
+        }
+
+        function changeBackgroundWhileDrag(e){
+            //e.stopPropagation()
             if(!isClicked) return
-            changeBackground()
+            changeBackground(square)
         }
-        function changeBackground(){
+        function changeBackground(square){
+            
             try{
                 if(color()[0]!='#'){
                     if(square.style.backgroundColor=='rgb(0%,0%,0%)') {
@@ -118,6 +165,7 @@ function generateRandomColor(){
     return `#${randColor.toUpperCase()}`
 }
 randomColor.addEventListener('click',()=>{
+    firstClick=true;
     setHoverEffect(generateRandomColor)
     currentColor=generateRandomColor
 })
@@ -138,7 +186,7 @@ function darkerColor(r,g,b){
 
 
 darker.addEventListener('click',()=>{
-    
+    firstClick=true;
 
     setHoverEffect(darkerColor)
     currentColor=darkerColor
@@ -159,7 +207,7 @@ const options = document.querySelectorAll('option')
 options.forEach((option)=>{
     
     option.addEventListener('click',changeTheBoard)
-    option.addEventListener('touch',changeTheBoard)
+    option.addEventListener('touchstart',changeTheBoard)
 })
 
 function changeTheBoard(e){
