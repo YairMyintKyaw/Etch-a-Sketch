@@ -8,10 +8,25 @@ let currentColor;
 let numberOfRow=16; // initial row
 let numberOfColumn=16;// initial column
 createBoard(numberOfRow,numberOfColumn)
+let isClicked=false;
+gridContainer.addEventListener('mousedown',click)
+gridContainer.addEventListener('touchstart',click)
+
+function click(){
+    isClicked=true;
+}
+
+window.addEventListener('mouseup',unclick)
+window.addEventListener('touchend',unclick)
+window.addEventListener('touchcancel',unclick)
+
+function unclick(){
+    isClicked=false;
+}
 
 //Create board
 function createBoard(row,column){
-    gridContainer.style.height=`${gridContainer.offsetWidth}px`
+    gridContainer.style.height=`${gridContainer.offsetWidth}px`;
     if(document.body.offsetHeight<document.body.offsetWidth) gridContainer.style.width=`${gridContainer.offsetHeight}px`
     for(let i=0;i<row;i++){
         let gridRow = document.createElement('div');
@@ -20,6 +35,7 @@ function createBoard(row,column){
         for(let j=0;j<column;j++){
             let square=document.createElement('div');
             square.classList.add('square');
+            //square.draggable="false"
             if(i%2==0){
                 if(j%2!==0) square.classList.add('grayBackground')
             }else{
@@ -27,13 +43,17 @@ function createBoard(row,column){
             }
             
             gridRow.append(square)
+            square.addEventListener('mousedown',()=>square.style.backgroundColor='black')
             square.addEventListener('mouseover',()=>{
+                if(!isClicked) return;
                 square.style.backgroundColor='black'
             })
         }
     }
     
 }
+
+
 //In case any rotation happens
 window.addEventListener('resize',()=>{
     console.log(gridContainer.offsetWidth)
@@ -46,14 +66,24 @@ window.addEventListener('resize',()=>{
 })
 //square
 function setHoverEffect(color){
+    
     const squares = document.querySelectorAll('.square')
     squares.forEach((square)=>{
         let red=60;
         let green=60;
         let blue=60;
+        square.addEventListener('mousedown',changeBackgroundWithClick)
+        square.addEventListener('touch',changeBackgroundWithClick)
+        square.addEventListener('mouseover',changeBackgroundWhileDrag)
+        square.addEventListener('touchmove',changeBackgroundWhileDrag)
         
-        square.addEventListener('mouseover',changeBackground)
-        square.addEventListener('touchmove',changeBackground)
+        function changeBackgroundWithClick(){
+            changeBackground()
+        }
+        function changeBackgroundWhileDrag(){
+            if(!isClicked) return
+            changeBackground()
+        }
         function changeBackground(){
             try{
                 if(color()[0]!='#'){
