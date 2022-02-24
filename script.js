@@ -205,15 +205,12 @@ const options = document.querySelectorAll('option')
 options.forEach((option)=>{
     
     option.addEventListener('click',changeTheBoard)
-    option.addEventListener('touchend',changeTheBoard)
+    option.addEventListener('touch',changeTheBoard)
 })
 
 function changeTheBoard(e){
     let optionValue = e.target.value; numberOfColumn=optionValue;numberOfRow=optionValue;
-    
-    if(optionValue=='ratio') return;
     gridContainer.innerHTML=''
-    
     createBoard(+optionValue,+optionValue)
 }
 
