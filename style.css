@@ -63,14 +63,63 @@ body{
     background-color: gainsboro;
 }
 
-button,select,input{
+button,.ratioChanged,input{
     font-size: 1rem;
     padding: 5px 10px;
     margin: 10px;
     cursor: pointer;
+    
 }
 
 h1{
     font-size: 2rem;
 }
 
+.ratioChanged{
+    position: relative;
+    background-color: #e9e9ed;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.ratioChanged:hover{
+    background-color: rgb(184, 179, 174);
+}
+
+.alertBox{
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.ratios{
+    flex:1 0 auto;
+    max-width: 300px;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid gray;
+    gap: 1px;
+}
+
+.ratios div{
+    padding: 10px;
+    height: 30px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.ratios div:hover{
+    background-color: #e9e9ed;
+}
+
+.belowBtn{
+    display: flex;
+}

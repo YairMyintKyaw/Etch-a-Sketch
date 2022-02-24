@@ -200,17 +200,28 @@ clearedBtn.addEventListener('click',()=>{
 })
 
 //Change the board according to the ratio
+const ratioChangedButton=document.querySelector('.ratioChanged');
+const alertBox=document.querySelector('.alertBox')
+ratioChangedButton.addEventListener('click',()=>alertBox.style.display='flex')
 
-const options = document.querySelectorAll('option')
+const options=document.querySelectorAll('.ratios div')
 options.forEach((option)=>{
-    
+
     option.addEventListener('click',changeTheBoard)
     option.addEventListener('touch',changeTheBoard)
 })
 
-function changeTheBoard(e){
-    let optionValue = e.target.value; numberOfColumn=optionValue;numberOfRow=optionValue;
+function changeTheBoard(e){    
+    let optionValue = e.target.getAttribute('value'); 
+    if(optionValue=='back'){
+        alertBox.style.display='none';
+        return;
+    }
+    numberOfColumn=optionValue;
+    numberOfRow=optionValue;
     gridContainer.innerHTML=''
     createBoard(+optionValue,+optionValue)
+    alertBox.style.display='none';
+
 }
 

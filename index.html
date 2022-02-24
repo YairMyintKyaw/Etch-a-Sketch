@@ -18,15 +18,19 @@
         <button class="darker">Darker</button>
     </div>
     <div class="gridContainer" onmousedown="event.preventDefault ? event.preventDefault() : event.returnValue = false"></div>
-    <div>
+    <div class="belowBtn">
         <button class="clearedBtn">Clear</button>
-        <select class="ratioChanged" name="ratio">
-            <option value="16">16:16</option>
-            <option value="8">8:8</option>
-            <option value="32">32:32</option>
-            <option value="64">64:64</option>
-          </select>
+        <div class="ratioChanged">Ratios</div>
         
+    </div>
+    <div class="alertBox">
+        <div class="ratios">
+            <div value="8">8:8</div>
+            <div value="16">16:16</div>
+            <div value="32">32:32</div>
+            <div value="64">64:64</div>
+            <div value="back">Return</div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
