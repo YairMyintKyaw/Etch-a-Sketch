@@ -64,7 +64,6 @@ function createBoard(row,column){
 
 function initialDrawColorForTouch(e){
     let secondElement=document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
-    console.log(document.elementsFromPoint)
     if(!isClicked) return;
     e.target.style.backgroundColor='black';
     if(secondElement.classList.contains('square')) secondElement.style.backgroundColor='black'
@@ -85,7 +84,6 @@ function initialColor(e){
 
 //In case any rotation happens
 window.addEventListener('resize',()=>{
-    console.log(gridContainer.offsetWidth)
     gridContainer.style.height=`${gridContainer.offsetWidth}px`
     if(document.body.offsetHeight<document.body.offsetWidth) gridContainer.style.width=`${gridContainer.offsetHeight}px`
     else if(document.body.offsetWidth<=500) {
@@ -207,19 +205,15 @@ const options = document.querySelectorAll('option')
 options.forEach((option)=>{
     
     option.addEventListener('click',changeTheBoard)
-    option.addEventListener('touchstart',changeTheBoard)
+    option.addEventListener('touchend',changeTheBoard)
 })
 
 function changeTheBoard(e){
     let optionValue = e.target.value; numberOfColumn=optionValue;numberOfRow=optionValue;
     
     if(optionValue=='ratio') return;
-    //else if(optionValue=='customize') {}
     gridContainer.innerHTML=''
     
     createBoard(+optionValue,+optionValue)
-    setTimeout(() => {
-        clearedBtn.click()
-    }, 500);
 }
 
